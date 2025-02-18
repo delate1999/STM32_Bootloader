@@ -1,0 +1,5 @@
+C:/Users/matko/NAUKA/PROGRAMOWANIE/PROJECTS/STM32_Bootloader/Bootloader/STM32_Bootloader_Bootloader/CMakeFiles/STM32_Bootloader_Bootloader.dir
+C:/Users/matko/NAUKA/PROGRAMOWANIE/PROJECTS/STM32_Bootloader/Bootloader/STM32_Bootloader_Bootloader/CMakeFiles/edit_cache.dir
+C:/Users/matko/NAUKA/PROGRAMOWANIE/PROJECTS/STM32_Bootloader/Bootloader/STM32_Bootloader_Bootloader/CMakeFiles/rebuild_cache.dir
+C:/Users/matko/NAUKA/PROGRAMOWANIE/PROJECTS/STM32_Bootloader/Bootloader/STM32_Bootloader_Bootloader/cmake/stm32cubemx/CMakeFiles/edit_cache.dir
+C:/Users/matko/NAUKA/PROGRAMOWANIE/PROJECTS/STM32_Bootloader/Bootloader/STM32_Bootloader_Bootloader/cmake/stm32cubemx/CMakeFiles/rebuild_cache.dir
