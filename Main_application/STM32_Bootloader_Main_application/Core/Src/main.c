@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,7 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint32_t buttonCounter = 0; 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -90,12 +90,15 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  printf("main_app_started\r\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+    HAL_Delay(500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -152,6 +155,11 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+/* Overload _write function - printf() to UART*/
+int _write(int file, char* ptr, int len) {
+  HAL_UART_Transmit(&huart2, (uint8_t*) ptr, len, HAL_MAX_DELAY);
+  return len;
+}
 /* USER CODE END 4 */
 
 /**
