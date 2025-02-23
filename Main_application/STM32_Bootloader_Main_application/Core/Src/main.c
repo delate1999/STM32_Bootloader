@@ -44,7 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint32_t buttonCounter = 0; 
+uint32_t LED_interval_ms = 500; 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,7 +98,7 @@ int main(void)
   while (1)
   {
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    HAL_Delay(500);
+    HAL_Delay(LED_interval_ms);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -159,6 +159,16 @@ void SystemClock_Config(void)
 int _write(int file, char* ptr, int len) {
   HAL_UART_Transmit(&huart2, (uint8_t*) ptr, len, HAL_MAX_DELAY);
   return len;
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t pin) {
+  if (pin == B1_Pin) {
+    if(LED_interval_ms == 500){
+      LED_interval_ms = 250; 
+    }else if(LED_interval_ms == 250){
+      LED_interval_ms = 500; 
+    }
+  }
 }
 /* USER CODE END 4 */
 
