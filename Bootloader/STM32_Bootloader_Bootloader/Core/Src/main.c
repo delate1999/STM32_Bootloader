@@ -18,12 +18,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "crc.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,7 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+bool buttonPressed = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -55,7 +57,19 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void deinit_peripherals() {
+  HAL_CRC_DeInit(&hcrc);
+  HAL_UART_DeInit(&huart2);
+  HAL_NVIC_DisableIRQ(B1_EXTI_IRQn);
+  HAL_GPIO_DeInit(LD2_GPIO_Port, LD2_Pin);
+  HAL_GPIO_DeInit(B1_GPIO_Port, B1_Pin);
+  HAL_RCC_DeInit(); 
+  HAL_DeInit();
 
+  SysTick->CTRL = 0;
+  SysTick->LOAD = 0;
+  SysTick->VAL = 0;
+}
 /* USER CODE END 0 */
 
 /**
@@ -88,8 +102,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-
+  printf("bootloader_started\r\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,6 +114,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    if (buttonPressed) {
+      buttonPressed = false;
+      printf("bootloader_jumping_to_application\r\n");
+      // jump to application
+    }
   }
   /* USER CODE END 3 */
 }
@@ -151,7 +171,16 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+int _write(int file, char* ptr, int len) {
+  HAL_UART_Transmit(&huart2, (uint8_t*) ptr, len, HAL_MAX_DELAY);
+  return len;
+}
 
+void HAL_GPIO_EXTI_Callback(uint16_t pin) {
+  if (pin == B1_Pin) {
+    buttonPressed = true;
+  }
+}
 /* USER CODE END 4 */
 
 /**
